@@ -19,7 +19,11 @@ productRoutes.put(
 );
 
 productRoutes.get('/:id', productController.findProductById);
-productRoutes.delete('/:id', productController.deleteProductById);
+productRoutes.delete(
+  '/:id',
+  authGuard.adminAuth,
+  productController.deleteProductById
+);
 productRoutes.get('/', productController.getAllProductPagination);
 
 productRoutes.post(

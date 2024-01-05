@@ -20,6 +20,14 @@ async function onCreateOrder(req) {
     return result;
   }
 
+  const payload = new orderSchema({
+    product: id,
+    user: req.userInfo.id,
+    productTotal: amount,
+  });
+
+  const createdOrder = await orderRepo.toCreateOrder(payload);
+
   const cutStock = await productRepo.toCutStockProduct(id, amount);
   if (!cutStock) {
     result = {
@@ -32,18 +40,7 @@ async function onCreateOrder(req) {
     return result;
   }
 
-  const payload = new orderSchema({
-    product: id,
-    user: req.userInfo.id,
-    productTotal: amount,
-  });
-
-  const createdOrder = await orderRepo.toCreateOrder(payload);
-
-  const updatedProductOrder = await productRepo.toUpdateOrderInProduct(
-    id,
-    createdOrder.id
-  );
+  await productRepo.toUpdateOrderInProduct(id, createdOrder.id);
 
   result = {
     data: createdOrder,

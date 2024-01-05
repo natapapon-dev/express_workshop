@@ -63,19 +63,20 @@ async function toCutStockProduct(_id, amount) {
 
 async function toUpdateOrderInProduct(_id, order_id) {
   const products = await productsSchema.findById(_id);
-  console.log(products);
+
   let productUpdated;
   if (products.orders.length > 0) {
-    productUpdated = await productsSchema.findByIdAndUpdate(
-      { _id: _id, orders: products.orders[0]._id },
-      {
-        $set: { 'orders.$': order_id },
-      }
+    productUpdated = await productsSchema.findOneAndUpdate(
+      { _id, orders: { $exists: true } },
+      { $push: { orders: order_id } },
+      { new: true }
     );
   } else {
-    productUpdated = await productsSchema.findByIdAndUpdate(_id, {
-      $set: { orders: order_id },
-    });
+    productUpdated = await productsSchema.findByIdAndUpdate(
+      _id,
+      { $push: { orders: order_id } },
+      { new: true }
+    );
   }
 
   return productUpdated;
