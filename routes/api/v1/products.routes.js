@@ -32,4 +32,9 @@ productRoutes.post(
   orderController.createdOrder
 );
 
+productRoutes.get(
+  '/:id/orders',
+  productController.getAllOrderInProductPagination
+);
+
 module.exports = productRoutes;

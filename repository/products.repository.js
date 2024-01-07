@@ -10,6 +10,17 @@ async function toGetAllProduct(page, size) {
   return products;
 }
 
+async function toGetAllOrderinProduct(_id, page, size) {
+  const productOrder = await productsSchema
+    .findById(_id)
+    .populate({ path: 'orders' })
+    .skip((page - 1) * size)
+    .limit(size)
+    .sort({ _id: 'asc' });
+
+  return productOrder;
+}
+
 async function toFindProductById(_id) {
   const product = await productsSchema.findById(_id);
   return product;
@@ -82,6 +93,13 @@ async function toUpdateOrderInProduct(_id, order_id) {
   return productUpdated;
 }
 
+async function toCountAllOrderInProduct(_id) {
+  const productOrders = await productsSchema.findById(_id);
+  const ordersCount = productOrders.orders.length;
+
+  return ordersCount;
+}
+
 module.exports = {
   toGetAllProduct,
   toCreateProduct,
@@ -92,4 +110,6 @@ module.exports = {
   toCheckProductAmount,
   toCutStockProduct,
   toUpdateOrderInProduct,
+  toGetAllOrderinProduct,
+  toCountAllOrderInProduct,
 };

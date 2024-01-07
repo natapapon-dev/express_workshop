@@ -52,6 +52,29 @@ async function onCreateOrder(req) {
   return result;
 }
 
+async function onGetAllProductPagination(req) {
+  let result = {};
+  const { page, size } = req.query;
+  const pageInt = parseInt(page) || 1;
+  const sizeInt = parseInt(size) || 10;
+  const totalItems = await orderRepo.toCountAllOrder();
+  const totalPages = Math.ceil(totalItems / size);
+
+  const orders = await orderRepo.toGetAllOrder(pageInt, sizeInt);
+
+  result = {
+    data: orders,
+    message: 'success',
+    totalPage: totalPages,
+    currentPage: pageInt,
+    pageSize: sizeInt,
+    success: true,
+    status: 200,
+  };
+  return result;
+}
+
 module.exports = {
   onCreateOrder,
+  onGetAllProductPagination,
 };

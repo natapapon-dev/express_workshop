@@ -157,10 +157,41 @@ async function onGetAllProductByPage(req) {
   return result;
 }
 
+async function onGetOrdersInProductByPage(req) {
+  let result = {};
+  console.log(req.query);
+  console.log(req.params);
+  const { page, size } = req.query;
+  const { id } = req.params;
+  const pageInt = parseInt(page) || 1;
+  const sizeInt = parseInt(size) || 10;
+  const orderCount = await productRepo.toCountAllOrderInProduct(id);
+  const totalPage = Math.ceil(orderCount / sizeInt);
+
+  const productOrders = await productRepo.toGetAllOrderinProduct(
+    id,
+    pageInt,
+    sizeInt
+  );
+
+  result = {
+    data: productOrders,
+    message: `success`,
+    status: 200,
+    success: true,
+    currentPage: pageInt,
+    size: sizeInt,
+    totalPage: totalPage,
+  };
+
+  return result;
+}
+
 module.exports = {
   onProductCreate,
   onProductUpdate,
   onDeletedProduct,
   onFindProductById,
   onGetAllProductByPage,
+  onGetOrdersInProductByPage,
 };

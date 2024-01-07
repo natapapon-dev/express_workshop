@@ -18,4 +18,22 @@ async function createdOrder(req, res) {
   return result;
 }
 
-module.exports = { createdOrder };
+async function getAllOrder(req, res) {
+  let result = {};
+  try {
+    const orders = await orderService.onGetAllProductPagination(req);
+
+    result = res.status(orders.status).json(orders);
+  } catch (error) {
+    result = res.status(500).json({
+      data: req.data,
+      message: error.message,
+      success: false,
+      status: 500,
+    });
+  }
+
+  return result;
+}
+
+module.exports = { createdOrder, getAllOrder };

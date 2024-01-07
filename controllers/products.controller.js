@@ -90,10 +90,27 @@ async function getAllProductPagination(req, res) {
   return result;
 }
 
+async function getAllOrderInProductPagination(req, res) {
+  let result = {};
+  try {
+    const productOrders = await productsService.onGetOrdersInProductByPage(req);
+
+    result = res.status(productOrders.status).json(productOrders);
+  } catch (error) {
+    result = res.status(500).json({
+      data: req.body,
+      message: error.message,
+      sucess: false,
+      status: 500,
+    });
+  }
+}
+
 module.exports = {
   createdProduct,
   updatedProduct,
   deleteProductById,
   findProductById,
   getAllProductPagination,
+  getAllOrderInProductPagination,
 };
