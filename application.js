@@ -1,19 +1,19 @@
 const express = require('express');
 var app = express();
 var logger = require('morgan');
+const cors = require('cors');
+
 const bodyParser = require('body-parser');
 
 require('./config/env');
 require('./config/db');
 require('./config/seed.db');
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-// Parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
-
-// Parse application/json
 app.use(bodyParser.json());
 
 app.use('', require('./routes/application.routes'));
