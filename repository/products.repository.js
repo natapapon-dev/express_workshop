@@ -54,7 +54,7 @@ async function toCheckProductAmount(_id, amount) {
   const product = await productsSchema.findById(_id);
   console.log(product, amount);
   if (amount <= product.amount) {
-    isEnough = true;
+    isProductEnough = true;
   }
 
   productPrice = product.price;
