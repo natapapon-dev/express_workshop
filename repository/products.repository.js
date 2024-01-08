@@ -13,12 +13,15 @@ async function toGetAllProduct(page, size) {
 async function toGetAllOrderinProduct(_id, page, size) {
   const productOrder = await productsSchema
     .findById(_id)
-    .populate({ path: 'orders' })
+    .populate({
+      path: 'orders',
+      populate: [{ path: 'user' }, { path: 'product' }],
+    })
     .skip((page - 1) * size)
     .limit(size)
     .sort({ _id: 'asc' });
 
-  return productOrder;
+  return productOrder.orders;
 }
 
 async function toFindProductById(_id) {
