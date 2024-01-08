@@ -91,7 +91,6 @@ async function onSignIn(request) {
 
   result = {
     data: { jwt_token, username: user.username },
-    data2: user,
     message: 'successfull sign in',
     status: 200,
     success: true,
