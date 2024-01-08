@@ -7,6 +7,7 @@ const productSchema = new Schema(
     productDescription: { type: String },
     productImagePath: { type: String },
     amount: { type: Number },
+    price: { type: Number },
     orders: [
       {
         type: mongoose.Schema.Types.ObjectId,

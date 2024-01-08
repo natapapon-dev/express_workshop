@@ -7,7 +7,8 @@ async function onCreateOrder(req) {
   const { id } = req.params;
   const { amount } = req.body;
 
-  const isProductEnough = await productRepo.toCheckProductAmount(id, amount);
+  const { isProductEnough, productPrice } =
+    await productRepo.toCheckProductAmount(id, amount);
 
   if (!isProductEnough) {
     result = {
@@ -24,6 +25,7 @@ async function onCreateOrder(req) {
     product: id,
     user: req.userInfo.id,
     productTotal: amount,
+    priceTotal: amount * productPrice,
   });
 
   const createdOrder = await orderRepo.toCreateOrder(payload);

@@ -15,6 +15,7 @@ async function onProductCreate(req) {
     productDescription: req.body.productDescription,
     productImagePath: imagePath,
     amount: req.body.amount,
+    price: req.body.price,
   };
 
   const product = await productRepo.toCreateProduct(payload);

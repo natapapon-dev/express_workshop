@@ -14,6 +14,9 @@ const orderSchema = new Schema(
     productTotal: {
       type: Number,
     },
+    priceTotal: {
+      type: Number,
+    },
   },
   {
     timestamps: true,

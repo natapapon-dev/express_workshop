@@ -49,12 +49,16 @@ async function toCountAllProduct() {
 }
 
 async function toCheckProductAmount(_id, amount) {
+  let isEnough = false;
+  let productPrice = 0;
   const product = await productsSchema.findById(_id);
-  if (product.amount < amount) {
-    return false;
+  if (product.amount >= amount) {
+    isEnough = true;
   }
 
-  return true;
+  productPrice = product.price;
+
+  return { isEnough, productPrice };
 }
 
 async function toDeleteProduct(_id) {
